@@ -89,6 +89,6 @@ input{
 }
 
 
-  #mainWrapper form {  position: fixed; bottom: 0; width: 100%; height: 27px; }
-      #mainWrapper form input { border: 0; padding: 5px; width:40%;}
+  #mainWrapper form {  position: fixed; bottom: 0; width: 100%; height: 30px; }
+      #mainWrapper form input { border: 0; padding: 5px; width:74%;}
 	
