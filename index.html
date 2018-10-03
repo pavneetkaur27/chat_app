@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ChatIO</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="background-color: #00838F;margin-top: 50px;">
+	<div id="container" > 
+  		<div id="namesWrapper"  style="background-color: #fff;margin-top: 70px">
+  				<h2><strong>Connect with world..</strong></h2>
+  				<form id="usernameForm">
+  					<p style="color: #212121"><strong>Create Username:</strong></p>
+  					<input type="text" size="35" id="username" class="form-control">
+  					<div id="error" style="color: red;margin: 8px;"></div>  
+  					<center><input type="submit" value="Submit" class="btn btn-primary">
+  				</form>
+   		</div>
+   		<div id="mainWrapper" class="row" style="margin-left: 1px;border-top:2px #fff solid;">
+   		
+   			<div class="col-xs-3 col-sm-2" id="userWrapper" >
+   				<div style="color:#fff;border-bottom:2px #fff solid; border-radius: 5px;padding: 5px;font-size: 20px;" >Users Online</div>
+				<div id="users" style="font-family: Comic Sans MS;font-size: 16px;margin-top: 10px;"></div>
+			</div>
+			<div class="col-xs-9 col-sm-10" id="chatWrapper" style="border-left:2px #fff solid; ">
+				<div style="color:#fff;border-bottom:2px #fff solid; border-radius: 5px;padding: 5px;font-size: 20px;"><center>Chats <span class="badge">1</span></center></div>
+				<div id="chatWindow" style="font-family:Comic Sans MS;font-size: 16px;margin-top: 10px;" ></div>
+				<form id="messageForm">
+					<input  style="border-radius: 4px;color: #424242;padding-left:5px;" type="text" id="message" placeholder="Say Something...">
+					<input type="submit" value="Send" class="btn btn-danger">
+				</form>
+			</div>
+		</div>	
+	</div>
+	<script src="/socket.io/socket.io.js"></script>
+	<script >
+		$(function(){
+			var socket=io.connect();
+			var $messageForm = $('#messageForm');
+			var $message = $('#message');
+			var $chat = $('#chatWindow');
+			var $usernameForm = $('#usernameForm');
+			var $users = $('#users');
+			var $username = $('#username');
+			var $error = $('#error');
+
+			$usernameForm.submit(function(e){
+				e.preventDefault();
+				socket.emit('new user',$username.val(),function(data){
+					if(data){
+						$('#namesWrapper').hide();
+						$('#mainWrapper').show();
+					}else{
+						$error.html("This Username is taken!");
+					}
+				});
+			});
+
+			socket.on('usernames',function(data){
+				var names="";
+				for(i=0;i<data.length;i++){
+					names += data[i] + '<br>';
+				}
+				$users.html(names);
+			});
+
+			$messageForm.submit(function(e){
+				e.preventDefault();
+				socket.emit('send message',$message.val());
+				$message.val('');
+			});
+
+			socket.on('new message',function(data){
+				$chat.append('<strong>' + data.username+'</strong>: '+data.msg + '<br>');
+			});
+
+
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+#chatWindow{
+	height:530px;
+}
+
+#mainWrapper{
+	display: none;
+}
+
+#chatWrapper{
+	color: white;
+	height: 100%;
+	background-color: ##00838F
+	
+}
+
+#userWrapper{
+	background-color: #00838F
+	padding: 10px;
+	color: white;
+}
+
+#namesWrapper h2{
+	color:#00695C;
+	font-family: Courier;	
+}
+
+#namesWrapper p{
+	
+	font-family: Courier;	
+	font-size: 24px;
+}
+
+@media (min-width: 500px){
+#namesWrapper{
+	
+	width: 50%;
+	border:1px #ccc solid;
+	border-radius: 10px;
+	background:#f4f4f4;
+	padding:30px;
+	
+	margin-left:20%;
+}
+
+}
+
+@media (max-width: 500px){
+	
+
+	#namesWrapper{
+	border:1px #ccc solid;
+	border-radius: 5px;
+	background:#f4f4f4;
+	padding:14px;
+	margin:30px;
+}
+#namesWrapper h2{
+	color:#00695C;
+	font-family: Courier;	
+	font-size: 24px;
+}
+
+#namesWrapper p{
+	
+	font-family: Courier;	
+	font-size: 18px;
+}
+}
+
+
+input{
+	height:30px;
+	border:solid 1px #ccc;
+}
